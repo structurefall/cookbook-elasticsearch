@@ -28,13 +28,6 @@ elasticsearch_configure 'elasticsearch' do
   end
 end
 
-elasticsearch_service 'elasticsearch' do
-  node['elasticsearch']['service'].each do |key, value|
-    # Skip nils, use false if you want to disable something.
-    send(key, value) unless value.nil?
-  end
-end
-
 # by default, no plugins
 node['elasticsearch']['plugin'].each do |plugin_name, plugin_value|
   elasticsearch_plugin plugin_name do
@@ -42,5 +35,12 @@ node['elasticsearch']['plugin'].each do |plugin_name, plugin_value|
       # Skip nils, use false if you want to disable something.
       send(key, value) unless value.nil?
     end
+  end
+end
+
+elasticsearch_service 'elasticsearch' do
+  node['elasticsearch']['service'].each do |key, value|
+    # Skip nils, use false if you want to disable something.
+    send(key, value) unless value.nil?
   end
 end
